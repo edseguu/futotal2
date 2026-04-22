@@ -111,38 +111,39 @@ onMounted(async () => {
 .particle {
   position: absolute;
   object-fit: contain;
-  transform: rotate(var(--base-rot));
+  transform: translate3d(0,0,0) rotate(var(--base-rot));
+  backface-visibility: hidden;
 }
 
 /* Animation 1: Gentle vertical bobbing */
 @keyframes floatBob {
-  0%   { transform: translateY(0) rotate(var(--base-rot)) scale(1); }
-  50%  { transform: translateY(-12px) rotate(calc(var(--base-rot) + 5deg)) scale(1.03); }
-  100% { transform: translateY(0) rotate(var(--base-rot)) scale(1); }
+  0%   { transform: translate3d(0, 0, 0) rotate(var(--base-rot)) scale(1); }
+  50%  { transform: translate3d(0, -12px, 0) rotate(calc(var(--base-rot) + 5deg)) scale(1.03); }
+  100% { transform: translate3d(0, 0, 0) rotate(var(--base-rot)) scale(1); }
 }
 
 /* Animation 2: Soft horizontal drifting */
 @keyframes floatDrift {
-  0%   { transform: translate(0, 0) rotate(var(--base-rot)); }
-  25%  { transform: translate(12px, -8px) rotate(calc(var(--base-rot) + 6deg)); }
-  50%  { transform: translate(-8px, -15px) rotate(calc(var(--base-rot) - 4deg)); }
-  75%  { transform: translate(10px, 5px) rotate(calc(var(--base-rot) + 3deg)); }
-  100% { transform: translate(0, 0) rotate(var(--base-rot)); }
+  0%   { transform: translate3d(0, 0, 0) rotate(var(--base-rot)); }
+  25%  { transform: translate3d(12px, -8px, 0) rotate(calc(var(--base-rot) + 6deg)); }
+  50%  { transform: translate3d(-8px, -15px, 0) rotate(calc(var(--base-rot) - 4deg)); }
+  75%  { transform: translate3d(10px, 5px, 0) rotate(calc(var(--base-rot) + 3deg)); }
+  100% { transform: translate3d(0, 0, 0) rotate(var(--base-rot)); }
 }
 
 /* Animation 3: Slow gentle spin */
 @keyframes floatSpin {
-  0%   { transform: rotate(var(--base-rot)) scale(0.95); }
-  50%  { transform: rotate(calc(var(--base-rot) + 180deg)) scale(1.05); }
-  100% { transform: rotate(calc(var(--base-rot) + 360deg)) scale(0.95); }
+  0%   { transform: translate3d(0,0,0) rotate(var(--base-rot)) scale(0.95); }
+  50%  { transform: translate3d(0,0,0) rotate(calc(var(--base-rot) + 180deg)) scale(1.05); }
+  100% { transform: translate3d(0,0,0) rotate(calc(var(--base-rot) + 360deg)) scale(0.95); }
 }
 
 /* Animation 4: Subtle Zig Zag */
 @keyframes floatZigZag {
-  0%   { transform: translate(0, 0) rotate(var(--base-rot)); }
-  25%  { transform: translate(8px, 6px) rotate(calc(var(--base-rot) + 3deg)); }
-  50%  { transform: translate(-8px, 12px) rotate(calc(var(--base-rot) - 3deg)); }
-  75%  { transform: translate(8px, 6px) rotate(calc(var(--base-rot) + 3deg)); }
-  100% { transform: translate(0, 0) rotate(var(--base-rot)); }
+  0%   { transform: translate3d(0, 0, 0) rotate(var(--base-rot)); }
+  25%  { transform: translate3d(8px, 6px, 0) rotate(calc(var(--base-rot) + 3deg)); }
+  50%  { transform: translate3d(-8px, 12px, 0) rotate(calc(var(--base-rot) - 3deg)); }
+  75%  { transform: translate3d(8px, 6px, 0) rotate(calc(var(--base-rot) + 3deg)); }
+  100% { transform: translate3d(0, 0, 0) rotate(var(--base-rot)); }
 }
 </style>

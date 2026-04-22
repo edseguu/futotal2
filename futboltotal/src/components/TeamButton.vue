@@ -272,6 +272,13 @@ function onKeydown(evt) {
 	box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
 	position: relative;
 	animation: goldenShine 3s linear infinite;
+	overflow: hidden;
+	will-change: transform, background-position;
+}
+
+@keyframes goldenShine {
+	0% { background-position: 0 0, 0 0, 0% 0; }
+	100% { background-position: 0 0, 0 0, 100% 0; }
 }
 
 /* LCD Grid Overlay */
