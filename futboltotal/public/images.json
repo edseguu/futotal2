@@ -1,0 +1,33 @@
+{
+  "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829377/LARETA2logo_BP_neg_kzjcze.png",
+  "background": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829355/Fondo_kvvr2f.jpg",
+  "bannerBackground": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829355/PlecaVerde_kb94qw.png",
+  "trophy" :"https://res.cloudinary.com/dcwi0nryw/image/upload/v1776845016/pixel-art-football-championship-trophy-icon-for-8bit-game-on-white-background-vector-removebg-preview_j06bzl.png",
+  "bannerLogos": [
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829372/American_Eagle_logo_cmjots.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829368/Logo_BP_color_wor5i1.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829369/LOGO_GM_negro-TRANSPARENTE_ododcj.png ",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829373/ImpulsoGeek_negro_pphnkw.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829371/RedMagic_logo_wq2jec.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829364/LOGOS-VOIT_color_xhny7i.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829366/factor_x_3_z33lgd.jpg"
+  ],
+  "elementos": [
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829363/mas1_myugxe.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829362/pelota_verde_tjzsz1.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829362/pelota_azul_yf6wtn.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829360/cuadrado_c5qbey.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829360/cruz_dvc9fm.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829359/circulo_jzhlcr.png",
+    "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829358/Guantes_m0epem.png"
+  ],
+  "sponsors": [
+    { "name": "American Eagle", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829372/American_Eagle_logo_cmjots.png", "videos": ["https://www.youtube.com/embed/rRRBg4aNSMs?autoplay=1&mute=1&loop=1&playlist=rRRBg4aNSMs&controls=0&start=2", "https://www.youtube.com/embed/sNzn4VQTRe8?autoplay=1&mute=1&loop=1&playlist=sNzn4VQTRe8&controls=0&start=5", "https://www.youtube.com/embed/Q4JAI02Y8lE?autoplay=1&mute=1&loop=1&playlist=Q4JAI02Y8lE&controls=0&start=18"] },
+    { "name": "BP", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829368/Logo_BP_color_wor5i1.png", "videos": ["https://www.youtube.com/embed/uMIbkUAS9v0?autoplay=1&mute=1&loop=1&playlist=uMIbkUAS9v0&controls=0&start=1"] },
+    { "name": "GM", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829369/LOGO_GM_negro-TRANSPARENTE_ododcj.png", "videos": ["https://player.vimeo.com/video/1183530395?h=14f7f61824&autoplay=1&muted=1&loop=1&background=1"] },
+    { "name": "Impulso Geek", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829373/ImpulsoGeek_negro_pphnkw.png", "videos": [] },
+    { "name": "Red Magic", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829371/RedMagic_logo_wq2jec.png", "videos": ["https://www.youtube.com/embed/PvHWNaBFyn8?autoplay=1&mute=1&loop=1&playlist=PvHWNaBFyn8&controls=0&start=19", "https://www.youtube.com/embed/pcMqgCXGdcI?autoplay=1&mute=1&loop=1&playlist=pcMqgCXGdcI&controls=0&start=2"] },
+    { "name": "Voit", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829364/LOGOS-VOIT_color_xhny7i.png", "videos": ["https://www.youtube.com/embed/eQ5WdahY3Mc?autoplay=1&mute=1&loop=1&playlist=eQ5WdahY3Mc&controls=0&start=1"] },
+    { "name": "Factor X", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829366/factor_x_3_z33lgd.jpg", "videos": [] }
+  ]
+}

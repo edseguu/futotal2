@@ -1,0 +1,13 @@
+{
+  "name": "futotal-main",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm run dev --prefix futboltotal",
+    "build": "npm run build --prefix futboltotal",
+    "preview": "npm run preview --prefix futboltotal"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4"
+  }
+}
+
