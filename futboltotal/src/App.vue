@@ -112,7 +112,6 @@ onMounted(async () => {
   position: absolute;
   object-fit: contain;
   transform: rotate(var(--base-rot));
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }
 
 /* Animation 1: Gentle vertical bobbing */

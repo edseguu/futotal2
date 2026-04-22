@@ -615,9 +615,9 @@ let debounceTimer = null
 function debouncedLayout() {
   if (debounceTimer) clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
-    computePositions()
     if (rafId) cancelAnimationFrame(rafId)
     rafId = requestAnimationFrame(() => {
+      computePositions()
       drawBracketLines()
     })
   }, 16) // ~1 frame delay
@@ -680,7 +680,11 @@ function computePositions() {
       }
       
       const top = center - matchH / 2
-      matchEl.style.cssText = `position: absolute; top: ${top}px; left: 0; right: 0; margin: 0;`
+      matchEl.style.position = 'absolute'
+      matchEl.style.top = `${top}px`
+      matchEl.style.left = '0'
+      matchEl.style.right = '0'
+      matchEl.style.margin = '0'
       return center
     })
 
@@ -708,7 +712,11 @@ function computePositions() {
 
         const matchH = matchEl.offsetHeight || 80
         const top = center - matchH / 2
-        matchEl.style.cssText = `position: absolute; top: ${top}px; left: 0; right: 0; margin: 0;`
+        matchEl.style.position = 'absolute'
+        matchEl.style.top = `${top}px`
+        matchEl.style.left = '0'
+        matchEl.style.right = '0'
+        matchEl.style.margin = '0'
         newCenters.push(center)
       })
       prevCenters = newCenters
@@ -1019,9 +1027,20 @@ function resetLocalStorage() {
     <div class="center-final">
   <img v-if="trophyExists" class="final-trophy" :src="trophySrc" alt="Trophy" draggable="false" decoding="async" @error="onTrophyError" />
       
-      <button class="start-final-btn" @click="showFinalModal">
-        INICIAR FINAL
-      </button>
+      <div class="final-btn-container">
+        <button class="start-final-btn" @click="showFinalModal">
+          INICIAR FINAL
+        </button>
+        <!-- Sparkles -->
+        <span class="magic-sparkle s1"></span>
+        <span class="magic-sparkle s2"></span>
+        <span class="magic-sparkle s3"></span>
+        <span class="magic-sparkle s4"></span>
+        <span class="magic-sparkle s5"></span>
+        <span class="magic-sparkle s6"></span>
+        <span class="magic-sparkle s7"></span>
+        <span class="magic-sparkle s8"></span>
+      </div>
     </div>
 
     <div class="side right">
@@ -1388,7 +1407,7 @@ function resetLocalStorage() {
   width: clamp(180px, 20vw, 300px);
   flex-shrink: 0;
   gap: clamp(15px, 2vw, 25px);
-  margin-top: -200px;
+  margin-top: -120px;
 }
 
 .final-trophy{ 
@@ -1410,31 +1429,150 @@ function resetLocalStorage() {
 }
 
 .start-final-btn {
-  padding: clamp(12px, 1.5vw, 18px) clamp(30px, 4vw, 50px);
-  font-size: clamp(16px, 2vw, 22px);
+  width: 250px !important;
+  padding: 18px 0;
+  font-size: clamp(20px, 2.4vw, 24px);
   font-weight: 900;
-  color: white;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  border: 3px solid #fff;
-  border-radius: 50px;
+  color: #39ff14;
+  /* Digital Grid Background */
+  background: 
+    linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+    #000;
+  background-size: 15px 15px;
+  /* Beveled Shape */
+  clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);
+  border: 1px solid rgba(57, 255, 20, 0.8);
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.5), 0 0 30px rgba(16, 185, 129, 0.3);
-  transition: all 0.3s ease;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   text-transform: uppercase;
-  letter-spacing: 2px;
-  animation: btnPulse 2s ease-in-out infinite;
+  letter-spacing: 5px;
   display: block;
   margin: 0 auto;
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(57, 255, 20, 0.3), 
+    inset 0 0 15px rgba(57, 255, 20, 0.1);
+  animation: gamerPulse 2.5s infinite ease-in-out, gamerFlicker 8s infinite;
+  z-index: 2;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+}
+
+/* Corner Accents */
+.final-btn-container::before,
+.final-btn-container::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #39ff14;
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.6;
+}
+
+.final-btn-container::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.final-btn-container::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+.final-btn-container {
+  position: relative;
+  display: inline-block;
+  padding: 15px;
+}
+
+/* Magic Sparkle Effect */
+.magic-sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #39ff14;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 12px #39ff14, 0 0 20px rgba(57, 255, 20, 0.4);
+  animation: sparkleAnim 2s infinite;
+  opacity: 0;
+  z-index: 1;
+}
+
+@keyframes sparkleAnim {
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(0) rotate(360deg); opacity: 0; }
+}
+
+.s1 { top: -5%; left: 10%; animation-delay: 0.1s; }
+.s2 { top: 15%; left: 98%; animation-delay: 0.4s; }
+.s3 { top: 90%; left: 5%; animation-delay: 0.7s; }
+.s4 { top: 100%; left: 85%; animation-delay: 1s; }
+.s5 { top: 50%; left: -8%; animation-delay: 1.3s; }
+.s6 { top: -12%; left: 80%; animation-delay: 1.6s; }
+.s7 { top: 30%; left: 105%; animation-delay: 0.9s; }
+.s8 { top: 105%; left: 20%; animation-delay: 1.9s; }
+
+/* Continuous scanning light effect */
+.start-final-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: rotate(30deg);
+  animation: scanningLight 4s infinite cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .start-final-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.7), 0 0 50px rgba(16, 185, 129, 0.5);
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-4px);
+  background: #39ff14;
+  color: #000;
+  box-shadow: 
+    0 0 40px #39ff14, 
+    0 0 80px rgba(57, 255, 20, 0.6),
+    inset 0 0 20px rgba(0, 0, 0, 0.2);
+  letter-spacing: 8px;
+  border-color: #fff;
+  text-shadow: none;
+}
+
+/* Speed up sparkles on hover for intensity */
+.final-btn-container:hover .magic-sparkle {
+  animation-duration: 0.8s;
+  background: #fff;
+  box-shadow: 0 0 15px #fff;
 }
 
 .start-final-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
+}
+
+@keyframes scanningLight {
+  0% { left: -100%; opacity: 0; }
+  10% { opacity: 1; }
+  25% { left: 120%; opacity: 0; }
+  100% { left: 120%; opacity: 0; }
+}
+
+@keyframes gamerFlicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% { filter: brightness(1); }
+  20%, 24%, 55% { filter: brightness(1.4) contrast(1.2); }
+}
+
+@keyframes gamerPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.4), inset 0 0 10px rgba(57, 255, 20, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(57, 255, 20, 0.7), inset 0 0 20px rgba(57, 255, 20, 0.4); }
 }
 
 @keyframes btnPulse {
@@ -1466,7 +1604,7 @@ function resetLocalStorage() {
   margin: 0 auto;
   box-sizing: border-box;
   position: relative;
-  transform: translateY(2%);
+  padding-bottom: 20px;
 }
 .bracket-wrap.simple .side{ 
   display:flex; 
@@ -1528,15 +1666,15 @@ function resetLocalStorage() {
   width: clamp(26px, 2.8vw, 38px);
   height: clamp(26px, 2.8vw, 38px);
   border-radius: 50%;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: linear-gradient(135deg, #3dd41f 0%, #b8e735 100%);
+  color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: clamp(12px, 1.3vw, 16px);
   font-weight: 900;
-  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.5);
-  border: 2px solid white;
+  box-shadow: 0 3px 15px rgba(0, 3, 1, 0.74);
+  border: 2px solid rgb(60, 77, 39);
   z-index: 200;
   pointer-events: none;
 }
@@ -1554,9 +1692,9 @@ function resetLocalStorage() {
   height: clamp(24px, 2.5vw, 32px);
   padding: 3px 5px;
   border-radius: 5px;
-  border: 2px solid #10b981;
-  background: white;
-  color: #042022;
+  border: 2px solid #b3f79f;
+  background: rgb(137, 180, 133);
+  color: #000000;
   font-size: clamp(10px, 1.1vw, 13px);
   font-weight: 700;
   text-align: center;
@@ -1762,7 +1900,7 @@ function resetLocalStorage() {
   }
   /* Raise trophy and start button higher on ultra-wide screens */
   .center-final {
-    margin-top: -260px;
+    margin-top: -180px;
   }
   .start-final-btn {
     font-size: clamp(18px, 2.3vw, 28px);

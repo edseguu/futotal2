@@ -334,4 +334,3 @@ function onKeydown(evt) {
 	box-sizing: border-box;
 }
 </style>
-*** End Patch
