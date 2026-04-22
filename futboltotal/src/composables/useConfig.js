@@ -17,7 +17,7 @@ async function fetchConfig() {
   if (config.loaded) return config
   
   try {
-    const res = await fetch('/images.json')
+    const res = await fetch(`${import.meta.env.BASE_URL}images.json`)
     const data = await res.json()
     Object.assign(config, data)
     config.loaded = true

@@ -31,7 +31,7 @@ const scrollDuration = computed(() => {
 
 onMounted(() => {
   // Fetch logos and background from external JSON
-  fetch('/images.json')
+  fetch(`${import.meta.env.BASE_URL}images.json`)
     .then(r => r.json())
     .then(config => {
       if (config.bannerLogos && Array.isArray(config.bannerLogos)) {
