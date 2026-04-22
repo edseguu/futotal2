@@ -45,7 +45,8 @@ onMounted(async () => {
             height: `${25 + Math.random() * 60}px`,
             opacity: 0.15 + Math.random() * 0.4,
             '--base-rot': `${Math.random() * 360}deg`,
-            animation: animName !== 'none' ? `${animName} ${12 + Math.random() * 18}s ease-in-out ${Math.random() * -20}s infinite ${Math.random() > 0.5 ? 'normal' : 'alternate'}` : 'none'
+            animation: animName !== 'none' ? `${animName} ${12 + Math.random() * 18}s ease-in-out ${Math.random() * -20}s infinite ${Math.random() > 0.5 ? 'normal' : 'alternate'}` : 'none',
+            willChange: animName !== 'none' ? 'transform' : 'auto'
           }
         })
         idx++
@@ -67,6 +68,7 @@ onMounted(async () => {
         :style="p.style"
         class="particle"
         loading="lazy"
+        decoding="async"
         draggable="false"
       />
     </div>
@@ -103,12 +105,12 @@ onMounted(async () => {
   z-index: -2;
   pointer-events: none;
   overflow: hidden;
+  contain: layout style paint;
 }
 
 .particle {
   position: absolute;
   object-fit: contain;
-  will-change: transform;
   transform: rotate(var(--base-rot));
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }

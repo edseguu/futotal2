@@ -979,9 +979,9 @@ function resetLocalStorage() {
 
     <!-- Header with logo and players -->
     <div class="header-section">
-  <img v-if="player1Exists" class="header-player player-left" :src="player1Src" aria-hidden="true" draggable="false" @error="onPlayer1Error" />
-  <img v-if="logoExists" class="top-logo" :src="logoSrc" alt="" draggable="false" @error="onLogoError" />
-  <img v-if="player2Exists" class="header-player player-right" :src="player2Src" aria-hidden="true" draggable="false" @error="onPlayer2Error" />
+  <img v-if="player1Exists" class="header-player player-left" :src="player1Src" aria-hidden="true" draggable="false" decoding="async" @error="onPlayer1Error" />
+  <img v-if="logoExists" class="top-logo" :src="logoSrc" alt="" draggable="false" decoding="async" @error="onLogoError" />
+  <img v-if="player2Exists" class="header-player player-right" :src="player2Src" aria-hidden="true" draggable="false" decoding="async" @error="onPlayer2Error" />
     </div>
     
     <div class="bracket-wrap simple" ref="containerRef">
@@ -1017,7 +1017,7 @@ function resetLocalStorage() {
     </div>
 
     <div class="center-final">
-  <img v-if="trophyExists" class="final-trophy" :src="trophySrc" alt="Trophy" draggable="false" @error="onTrophyError" />
+  <img v-if="trophyExists" class="final-trophy" :src="trophySrc" alt="Trophy" draggable="false" decoding="async" @error="onTrophyError" />
       
       <button class="start-final-btn" @click="showFinalModal">
         INICIAR FINAL
@@ -1082,7 +1082,7 @@ function resetLocalStorage() {
         </div>
         
         <!-- Optional side art (clock, mascot, etc.) -->
-        <img v-if="notifSideExists" class="notif-side" :src="notifSideSrc" alt="" draggable="false" @error="onNotifSideError" />
+        <img v-if="notifSideExists" class="notif-side" :src="notifSideSrc" alt="" draggable="false" decoding="async" @error="onNotifSideError" />
       </div>
     </div>
   </Transition>
@@ -1123,7 +1123,7 @@ function resetLocalStorage() {
         <div class="champion-crown">👑</div>
         <div class="champion-title">¡CAMPEÓN!</div>
         <div class="champion-name">{{ champion.name }}</div>
-  <img v-if="trophyExists" class="champion-trophy" :src="trophySrc" alt="Trophy" draggable="false" />
+  <img v-if="trophyExists" class="champion-trophy" :src="trophySrc" alt="Trophy" draggable="false" decoding="async" />
         <div class="champion-sub">Orgullo absoluto de la cancha</div>
       </div>
     </div>
@@ -1852,14 +1852,14 @@ function resetLocalStorage() {
   pointer-events: none;
   filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
   animation: giantRoll 3s linear forwards;
-  will-change: transform, left, opacity;
+  will-change: transform, opacity;
 }
 
 @keyframes giantRoll {
-  0% { left: -30vw; transform: translateY(-50%) rotate(0deg) scale(0.6); opacity: 0; }
-  10% { opacity: 1; transform: translateY(-50%) rotate(90deg) scale(1); }
-  90% { opacity: 1; transform: translateY(-50%) rotate(1080deg) scale(1); }
-  100% { left: 130vw; transform: translateY(-50%) rotate(1260deg) scale(0.6); opacity: 0; }
+  0%   { transform: translate(-30vw, -50%) rotate(0deg) scale(0.6); opacity: 0; }
+  10%  { transform: translate(-14vw, -50%) rotate(90deg) scale(1); opacity: 1; }
+  90%  { transform: translate(114vw, -50%) rotate(1080deg) scale(1); opacity: 1; }
+  100% { transform: translate(130vw, -50%) rotate(1260deg) scale(0.6); opacity: 0; }
 }
 
 .notification-toast {
@@ -1888,8 +1888,8 @@ function resetLocalStorage() {
 }
 
 @keyframes notificationFloat {
-  0%, 100% { margin-top: 0; }
-  50% { margin-top: -10px; }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .notif-bg{
@@ -2128,6 +2128,7 @@ function resetLocalStorage() {
   pointer-events: none;
   z-index: 0;
   opacity: 1;
+  contain: layout;
 }
 
 .pitch-line {
@@ -2314,7 +2315,10 @@ function resetLocalStorage() {
 /* ======= BALL - REALISTIC PASSING SEQUENCE ======= */
 .ball-container {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 3%;
+  width: 20px;
+  height: 20px;
   pointer-events: none;
   z-index: 100;
   animation: ballTacticalMove 15s infinite linear;
