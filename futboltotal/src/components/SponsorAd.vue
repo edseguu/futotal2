@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 import { useConfig } from '../composables/useConfig'
 
@@ -18,6 +18,7 @@ let logoFadeOutTimer = null
 let logoFadeInTimer = null
 
 const AD_DURATION = 6500 // 6.5 seconds
+
 
 onMounted(async () => {
   const data = await fetchConfig()
@@ -152,7 +153,7 @@ function showAd() {
 .sponsor-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 999999;
   display: flex;
   flex-direction: column;
   align-items: center;

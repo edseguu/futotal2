@@ -1300,8 +1300,8 @@ function resetLocalStorage() {
   display: flex;
   align-items: center;
   gap: 8px;
-  /* a bit more opaque as requested */
-  opacity: 0.95;
+  /* full opacity */
+  opacity: 1;
 }
 
 .undo-btn:hover {
@@ -1345,7 +1345,7 @@ function resetLocalStorage() {
   gap: 10px;
   max-width: 95vw;
   padding: 5px 20px;
-  z-index: 99999;
+  z-index: 1000001;
   pointer-events: none;
 }
 
@@ -2461,7 +2461,7 @@ function resetLocalStorage() {
   width: 20px;
   height: 20px;
   pointer-events: none;
-  z-index: 100;
+  z-index: 1000000;
   animation: ballTacticalMove 15s infinite linear;
 }
 
