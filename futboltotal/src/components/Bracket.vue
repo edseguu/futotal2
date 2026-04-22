@@ -1366,8 +1366,6 @@ function resetLocalStorage() {
   /* gentle idle animation for players */
   animation: headerFloat 4.2s ease-in-out infinite, headerSway 7s ease-in-out infinite;
   transform-origin: center bottom;
-  will-change: transform, filter;
-  backface-visibility: hidden;
 }
 
 .player-left { animation-delay: 0s, 0s; }
@@ -1419,13 +1417,15 @@ function resetLocalStorage() {
   width: clamp(150px, 16vw, 240px);
   height: clamp(150px, 16vw, 240px);
   object-fit: contain;
-  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+  /* Simplified filter to boost performance */
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4));
   animation: trophyFloat 3s ease-in-out infinite, trophyGlow 2s ease-in-out infinite;
+  transform: translateZ(0);
 }
 
 @keyframes trophyFloat {
-  0%, 100% { transform: translate3d(0,0,0); }
-  50% { transform: translate3d(0,-8px,0); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes trophyGlow {
@@ -1511,9 +1511,9 @@ function resetLocalStorage() {
 }
 
 @keyframes sparkleAnim {
-  0% { transform: translate3d(0,0,0) scale(0) rotate(0deg); opacity: 0; }
-  50% { transform: translate3d(0,0,0) scale(1.2) rotate(180deg); opacity: 1; }
-  100% { transform: translate3d(0,0,0) scale(0) rotate(360deg); opacity: 0; }
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(0) rotate(360deg); opacity: 0; }
 }
 
 .s1 { top: -5%; left: 10%; animation-delay: 0.1s; }
@@ -1633,7 +1633,6 @@ function resetLocalStorage() {
   min-width: 170px; /* minimum to keep buttons readable */
   height: 100%; /* ensure full height to show all matches */
   overflow: visible; /* don't clip matches */
-  will-change: transform;
   contain: layout style;
 }
 .bracket-wrap.simple .slot{ 
@@ -1649,8 +1648,6 @@ function resetLocalStorage() {
   align-items:center;
   padding: 0; /* no padding - spacing handled by grid */
   position: relative;
-  will-change: top, left;
-  backface-visibility: hidden;
 }
 
 /* Match info container for octavos (circle + time input) */
@@ -1997,7 +1994,6 @@ function resetLocalStorage() {
   pointer-events: none;
   filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
   animation: giantRoll 3s linear forwards;
-  will-change: transform, opacity;
 }
 
 @keyframes giantRoll {

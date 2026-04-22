@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
       <div class="row" :style="{ animationDuration: scrollDuration }">
         <template v-for="(it, i) in trackItems" :key="`a-`+i">
           <div v-if="it.type==='logo'" class="logo-item">
-            <img class="logo" :src="it.src" alt="logo" draggable="false" loading="lazy" decoding="async" />
+            <img class="logo" :src="it.src" alt="logo" draggable="false" loading="eager" decoding="sync" />
           </div>
           <div v-else class="phrase-chip">{{ it.text }}</div>
         </template>
@@ -69,7 +69,7 @@ onBeforeUnmount(() => {
       <div class="row" :style="{ animationDuration: scrollDuration }">
         <template v-for="(it, i) in trackItems" :key="`b-`+i">
           <div v-if="it.type==='logo'" class="logo-item">
-            <img class="logo" :src="it.src" alt="logo" draggable="false" loading="lazy" decoding="async" />
+            <img class="logo" :src="it.src" alt="logo" draggable="false" loading="eager" decoding="sync" />
           </div>
           <div v-else class="phrase-chip">{{ it.text }}</div>
         </template>
@@ -122,6 +122,8 @@ onBeforeUnmount(() => {
   padding: 0;
   animation: scrollX linear infinite;
   will-change: transform;
+  flex-shrink: 0;
+  width: max-content;
 }
 
 /* Two rows side-by-side for a seamless loop */
@@ -129,8 +131,8 @@ onBeforeUnmount(() => {
 .row + .row { margin-left: 0; }
 
 @keyframes scrollX {
-  0% { transform: translate3d(0,0,0); }
-  100% { transform: translate3d(-100%,0,0); }
+  0% { transform: translateX(0) translateZ(0); }
+  100% { transform: translateX(-100%) translateZ(0); }
 }
 
 .logo-item {

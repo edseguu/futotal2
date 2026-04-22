@@ -131,6 +131,7 @@ function onKeydown(evt) {
 		font-weight:700;
 		transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
 		overflow: hidden;
+		transform: translateZ(0);
 		/* subtle outer glow for arcade look (not too thick) */
 		box-shadow:
 			0 2px 10px rgba(16,185,129,0.18),
@@ -201,6 +202,7 @@ function onKeydown(evt) {
 	transition: all 0.3s ease;
   flex-shrink: 0;
   border: none !important;
+  transform: translateZ(0);
 }
 
 .left-side .trophy-btn {
@@ -213,13 +215,15 @@ function onKeydown(evt) {
 
 .trophy-emoji {
 	font-size: clamp(24px, 2.8vw, 42px);
-	filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+	text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-block;
+  will-change: transform;
 }
 
 .trophy-btn:hover .trophy-emoji {
   transform: scale(1.2) rotate(10deg);
-  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
 }
 
 .team-btn:hover .trophy-btn {
@@ -273,7 +277,6 @@ function onKeydown(evt) {
 	position: relative;
 	animation: goldenShine 3s linear infinite;
 	overflow: hidden;
-	will-change: transform, background-position;
 }
 
 @keyframes goldenShine {
