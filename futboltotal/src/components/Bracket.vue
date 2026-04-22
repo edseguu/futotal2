@@ -617,7 +617,9 @@ function debouncedLayout() {
   debounceTimer = setTimeout(() => {
     if (rafId) cancelAnimationFrame(rafId)
     rafId = requestAnimationFrame(() => {
-      computePositions()
+      requestAnimationFrame(() => {
+        computePositions()
+      })
       drawBracketLines()
     })
   }, 16) // ~1 frame delay
@@ -854,7 +856,9 @@ onMounted(async () => {
     if (config.notifFrame) notifFrameSrc.value = config.notifFrame
     if (config.notifSide) notifSideSrc.value = config.notifSide
 
-    computePositions()
+    requestAnimationFrame(() => {
+      computePositions()
+    })
     
     // Draw bracket lines after DOM is ready
     requestAnimationFrame(() => {

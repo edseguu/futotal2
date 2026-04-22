@@ -89,6 +89,7 @@ onBeforeUnmount(() => {
   z-index: -1;
   pointer-events: none; /* decorative, avoid blocking clicks */
   overflow: hidden;
+  contain: strict;
 }
 
 /* Background layer using Cloudinary image */
