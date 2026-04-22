@@ -649,9 +649,9 @@ function computePositions() {
   const colHeight = rect.height
   
   // Dynamic paddings based on screen height
-  const topPadding = Math.max(100, colHeight * 0.14)
-  const bottomPadding = Math.max(140, colHeight * 0.20)
-  const middleGap = Math.max(30, colHeight * 0.08)
+  const topPadding = Math.max(80, colHeight * 0.1)
+  const bottomPadding = Math.max(120, colHeight * 0.13)
+  const middleGap = Math.max(140, colHeight * 0.15) // Much larger gap for the bottom half
   
   const availableHeight = colHeight - middleGap - topPadding - bottomPadding
 

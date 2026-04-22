@@ -193,19 +193,18 @@ function onKeydown(evt) {
 	width: clamp(45px, 5vw, 80px);
 	height: 100%;
 	position: relative;
-	background: rgba(16, 185, 129, 0.1);
+	background: rgba(16, 185, 129, 0.12);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
 	transition: all 0.3s ease;
   flex-shrink: 0;
-  border-left: 2px solid rgba(16, 185, 129, 0.2);
+  border: none !important;
 }
 
 .left-side .trophy-btn {
-  border-left: none;
-  border-right: 2px solid rgba(16, 185, 129, 0.2);
+  border: none !important;
 }
 
 .trophy-btn:hover {
