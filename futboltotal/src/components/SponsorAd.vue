@@ -134,12 +134,13 @@ function showAd() {
             :alt="currentSponsor.name"
             class="sponsor-logo"
             draggable="false"
+            decoding="async"
           />
         </div>
 
         <!-- Progress bar at bottom -->
         <div class="sponsor-progress">
-          <div class="sponsor-progress-fill" :style="{ width: progress + '%' }"></div>
+          <div class="sponsor-progress-fill" :style="{ transform: `scaleX(${progress / 100})` }"></div>
         </div>
       </div>
     </div>
@@ -233,8 +234,11 @@ function showAd() {
 
 .sponsor-progress-fill {
   height: 100%;
+  width: 100%;
   background: rgba(255, 255, 255, 0.35);
-  transition: width 0.05s linear;
+  transition: transform 0.05s linear;
+  transform-origin: left center;
+  transform: scaleX(0);
   border-radius: 0 2px 2px 0;
 }
 

@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
       <div class="row" :style="{ animationDuration: scrollDuration }">
         <template v-for="(it, i) in trackItems" :key="`a-`+i">
           <div v-if="it.type==='logo'" class="logo-item">
-            <img class="logo" :src="it.src" alt="logo" draggable="false" />
+            <img class="logo" :src="it.src" alt="logo" draggable="false" loading="lazy" decoding="async" />
           </div>
           <div v-else class="phrase-chip">{{ it.text }}</div>
         </template>
@@ -69,7 +69,7 @@ onBeforeUnmount(() => {
       <div class="row" :style="{ animationDuration: scrollDuration }">
         <template v-for="(it, i) in trackItems" :key="`b-`+i">
           <div v-if="it.type==='logo'" class="logo-item">
-            <img class="logo" :src="it.src" alt="logo" draggable="false" />
+            <img class="logo" :src="it.src" alt="logo" draggable="false" loading="lazy" decoding="async" />
           </div>
           <div v-else class="phrase-chip">{{ it.text }}</div>
         </template>
