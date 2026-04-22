@@ -178,4 +178,17 @@ onBeforeUnmount(() => {
 
 /* removed fixed corner phrase; phrases now scroll between logos */
 
+/* ─── Responsive - Short Viewports ─── */
+@media (max-height: 850px) {
+  .banner-root {
+    height: clamp(80px, 12vh, 120px);
+  }
+  .logo-item {
+    width: clamp(160px, 18vw, 240px);
+    height: clamp(50px, 8vh, 80px);
+  }
+  .slider {
+    bottom: 5px;
+  }
+}
 </style>

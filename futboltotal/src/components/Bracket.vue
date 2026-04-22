@@ -647,9 +647,12 @@ function computePositions() {
   
   const rect = container.getBoundingClientRect()
   const colHeight = rect.height
-  const topPadding = 100
-  const bottomPadding = 180 
-  const middleGap = colHeight * 0.12 
+  
+  // Dynamic paddings based on screen height
+  const topPadding = Math.max(100, colHeight * 0.14)
+  const bottomPadding = Math.max(140, colHeight * 0.20)
+  const middleGap = Math.max(30, colHeight * 0.08)
+  
   const availableHeight = colHeight - middleGap - topPadding - bottomPadding
 
   ;['left', 'right'].forEach((side) => {
@@ -1778,16 +1781,16 @@ function resetLocalStorage() {
     gap: 8px;
   }
   .top-logo{
-    height: clamp(210px, 21vh, 360px);
-    max-width: clamp(800px, 53vw, 1350px);
+    height: clamp(100px, 18vh, 320px);
+    max-width: clamp(600px, 50vw, 1200px);
   }
   .header-player{
-    height: clamp(170px, 17vh, 285px);
-    max-width: clamp(260px, 17vw, 380px);
+    height: clamp(80px, 15vh, 240px);
+    max-width: clamp(180px, 15vw, 320px);
   }
   .bracket-wrap.simple .round{ 
-    width: clamp(190px, 16vw, 230px);
-    max-width: calc((100vw - 200px) / 8); /* ensure 8 columns + gaps fit */
+    width: clamp(160px, 15vw, 210px);
+    max-width: calc((100vw - 180px) / 8);
   }
 }
 
@@ -1797,41 +1800,39 @@ function resetLocalStorage() {
     gap: 10px;
   }
   .top-logo{
-    height: clamp(220px, 22vh, 400px);
-    max-width: clamp(850px, 58vw, 1500px);
+    height: clamp(120px, 18vh, 360px);
+    max-width: clamp(700px, 55vw, 1400px);
   }
   .header-player{
-    height: clamp(180px, 18vh, 320px);
-    max-width: clamp(280px, 19vw, 450px);
+    height: clamp(100px, 16vh, 280px);
+    max-width: clamp(200px, 18vw, 400px);
   }
   .bracket-wrap.simple .round{ 
-    width: clamp(220px, 18vw, 280px);
-    max-width: calc((100vw - 220px) / 8);
+    width: clamp(180px, 16vw, 240px);
+    max-width: calc((100vw - 200px) / 8);
   }
   .bracket-wrap.simple .match{ 
-    gap: 14px; 
+    gap: clamp(6px, 1vh, 12px); 
   }
   .bracket-wrap.simple .slot :deep(.team-btn) {
-    width: clamp(150px, 16vw, 240px);
-    height: clamp(60px, 6vw, 100px);
+    width: clamp(130px, 14vw, 220px);
+    height: clamp(45px, 5vh, 85px);
   }
   .bracket-wrap.simple .match.match-round-2 .slot :deep(.team-btn) {
-    /* reduce quarter-final width for this breakpoint */
-    width: clamp(165px, 17vw, 260px);
+    width: clamp(140px, 15vw, 240px);
   }
-  /* ensure semifinal buttons remain taller at this breakpoint */
   .bracket-wrap.simple .slot-semifinal :deep(.team-btn) {
-    height: clamp(120px, 9vw, 170px);
+    height: clamp(90px, 8vw, 150px);
   }
   .match-number {
-    width: clamp(30px, 3.2vw, 44px);
-    height: clamp(30px, 3.2vw, 44px);
-    font-size: clamp(14px, 1.5vw, 19px);
+    width: clamp(28px, 2.8vw, 40px);
+    height: clamp(28px, 2.8vw, 40px);
+    font-size: clamp(13px, 1.4vw, 18px);
   }
   .match-time-input {
-    width: clamp(50px, 5vw, 68px);
-    height: clamp(28px, 3vw, 38px);
-    font-size: clamp(12px, 1.3vw, 15px);
+    width: clamp(45px, 4.5vw, 62px);
+    height: clamp(24px, 2.5vw, 34px);
+    font-size: clamp(11px, 1.2vw, 14px);
   }
 }
 
@@ -3505,5 +3506,70 @@ function resetLocalStorage() {
 @keyframes trophyShine {
   0%, 100% { filter: drop-shadow(0 20px 40px rgba(255, 215, 0, 0.35)); }
   50% { filter: drop-shadow(0 28px 60px rgba(255, 215, 0, 0.6)); }
+}
+
+/* ─── Responsive - Mid-size Screens (Tablets/Small Laptops) ─── */
+@media (max-width: 1100px) {
+  .top-logo {
+    height: clamp(100px, 12vh, 160px) !important;
+  }
+  .center-final {
+    width: 200px !important;
+    gap: 10px !important;
+    margin: 0 20px !important;
+  }
+  .final-trophy {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  .start-final-btn {
+    width: 180px !important;
+    font-size: 16px !important;
+    padding: 12px 0 !important;
+    letter-spacing: 2px !important;
+  }
+  .bracket-wrap.simple .round {
+    width: clamp(120px, 12vw, 160px) !important;
+  }
+  .bracket-wrap.simple .slot :deep(.team-btn) {
+    width: 100% !important;
+  }
+}
+
+/* ─── Responsive - Short Viewports (Laptops/Small screens) ─── */
+@media (max-height: 850px) {
+  .top-logo {
+    height: clamp(80px, 12vh, 160px) !important;
+  }
+  .header-player {
+    height: clamp(70px, 10vh, 150px) !important;
+  }
+  .bracket-wrap.simple .slot :deep(.team-btn) {
+    height: clamp(38px, 5vh, 52px) !important;
+    font-size: clamp(12px, 1.2vw, 15px) !important;
+  }
+  .bracket-wrap.simple .slot-semifinal :deep(.team-btn) {
+    height: clamp(80px, 8vh, 110px) !important;
+  }
+  .bracket-wrap.simple .match {
+    gap: 4px !important;
+  }
+  .center-final {
+    margin-top: -60px !important;
+    gap: 15px !important;
+  }
+  .final-trophy {
+    width: clamp(100px, 12vw, 160px) !important;
+    height: clamp(100px, 12vw, 160px) !important;
+  }
+  .start-final-btn {
+    padding: 12px 0 !important;
+    font-size: 18px !important;
+    width: 200px !important;
+  }
+  .match-time-input {
+    height: 22px !important;
+    font-size: 11px !important;
+  }
 }
 </style>
