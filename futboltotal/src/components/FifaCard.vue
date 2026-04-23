@@ -1,13 +1,14 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 
+const base = import.meta.env.BASE_URL
 const props = defineProps({
   name: { type: String, default: 'PLAYER' },
   image: { type: String, default: '' },
-  logo: { type: String, default: '/bp.svg' },
+  logo: { type: String, default: `${base}bp.svg` },
   rating: { type: [Number, String], default: 1 },
   position: { type: String, default: 'DT' },
-  nation: { type: String, default: '/Flag_of_Mexico.svg.webp' },
+  nation: { type: String, default: `${base}Flag_of_Mexico.svg.webp` },
   stats: {
     type: Object,
     default: () => ({
@@ -91,10 +92,10 @@ onUnmounted(() => {
               <div :style="{ backgroundImage: `url(${nation})` }"></div>
             </div>
             <div class="club">
-              <div :style="{ backgroundImage: 'url(/bp.svg)' }"></div>
+              <div :style="{ backgroundImage: `url(${base}bp.svg)` }"></div>
             </div>
           </div>
-          <div class="image" :style="{ backgroundImage: `url(${side === 'left' ? '/pepe-removebg-preview.png' : '/Gemini_Generated_Image_oyhne7oyhne7oyhn-removebg-preview.png'})` }"></div>
+          <div class="image" :style="{ backgroundImage: `url(${side === 'left' ? `${base}pepe-removebg-preview.png` : `${base}Gemini_Generated_Image_oyhne7oyhne7oyhn-removebg-preview.png`})` }"></div>
         </div>
         <div class="card-bottom">
           <div class="name"><span>{{ name }}</span></div>
