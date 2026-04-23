@@ -5,10 +5,10 @@ const base = import.meta.env.BASE_URL
 const props = defineProps({
   name: { type: String, default: 'PLAYER' },
   image: { type: String, default: '' },
-  logo: { type: String, default: `${base}bp.svg` },
+  logo: { type: String, default: () => `${import.meta.env.BASE_URL}bp.svg` },
   rating: { type: [Number, String], default: 1 },
   position: { type: String, default: 'DT' },
-  nation: { type: String, default: `${base}Flag_of_Mexico.svg.webp` },
+  nation: { type: String, default: () => `${import.meta.env.BASE_URL}Flag_of_Mexico.svg.webp` },
   stats: {
     type: Object,
     default: () => ({
