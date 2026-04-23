@@ -88,16 +88,11 @@ function showAd() {
     progress.value = Math.min((elapsed / duration) * 100, 100)
   }, 30)
 
-  // Fade out logo after 1 second
+  // Keep logo visible initially, then fade out 2s before end
   logoVisible.value = true
   logoFadeOutTimer = setTimeout(() => {
     logoVisible.value = false
-  }, 1000)
-
-  // Fade logo back in 1.5 seconds before end
-  logoFadeInTimer = setTimeout(() => {
-    logoVisible.value = true
-  }, duration - 1500)
+  }, duration - 2000)
 
   // Auto-hide after duration
   hideTimer = setTimeout(() => {
@@ -119,11 +114,15 @@ function showAd() {
           :key="'video-' + adKey"
           :src="currentVideo"
           class="sponsor-video-bg"
+          width="1280"
+          height="720"
           frameborder="0"
           scrolling="no"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
+          loading="lazy"
         ></iframe>
+
 
         <!-- Subtle gradient overlay for text readability -->
         <div v-if="currentVideo" class="sponsor-video-overlay"></div>
@@ -168,12 +167,13 @@ function showAd() {
   width: min(640px, 92vw);
   padding: 60px 50px 50px;
   border-radius: 28px;
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow:
-    0 0 60px rgba(16, 185, 129, 0.15),
-    0 25px 50px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   text-align: center;
   overflow: hidden;
   animation: sponsorPulseGlow 2s ease-in-out infinite;
@@ -184,17 +184,19 @@ function showAd() {
   50%      { box-shadow: 0 0 80px rgba(16, 185, 129, 0.25), 0 25px 50px rgba(0, 0, 0, 0.5); }
 }
 
-/* Video background - scale up to crop player chrome */
+/* Video background - 150% zoom to hide edges and controls */
 .sponsor-video-bg {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 140%;
-  height: 140%;
+  width: 150%; 
+  height: 150%;
   transform: translate(-50%, -50%);
   z-index: 0;
   border: none;
   pointer-events: none;
+  background: #000;
+  object-fit: cover;
 }
 
 .sponsor-video-overlay {
@@ -216,9 +218,6 @@ function showAd() {
   z-index: 2;
 }
 
-.has-video .sponsor-logo-wrap {
-  background: rgba(255, 255, 255, 0.9);
-}
 
 
 /* Progress bar - at bottom */
@@ -268,8 +267,13 @@ function showAd() {
   margin: 0 auto 24px;
   padding: 20px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   transition: opacity 1s ease;
 }
 

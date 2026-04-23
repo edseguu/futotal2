@@ -2,7 +2,7 @@
   "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829377/LARETA2logo_BP_neg_kzjcze.png",
   "background": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829355/Fondo_kvvr2f.jpg",
   "bannerBackground": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829355/PlecaVerde_kb94qw.png",
-  "trophy" :"https://res.cloudinary.com/dcwi0nryw/image/upload/v1776845016/pixel-art-football-championship-trophy-icon-for-8bit-game-on-white-background-vector-removebg-preview_j06bzl.png",
+  "trophy": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776845016/pixel-art-football-championship-trophy-icon-for-8bit-game-on-white-background-vector-removebg-preview_j06bzl.png",
   "bannerLogos": [
     "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829372/American_Eagle_logo_cmjots.png",
     "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829368/Logo_BP_color_wor5i1.png",
@@ -22,12 +22,65 @@
     "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829358/Guantes_m0epem.png"
   ],
   "sponsors": [
-    { "name": "American Eagle", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829372/American_Eagle_logo_cmjots.png", "videos": ["https://www.youtube.com/embed/rRRBg4aNSMs?autoplay=1&mute=1&loop=1&playlist=rRRBg4aNSMs&controls=0&start=2", "https://www.youtube.com/embed/sNzn4VQTRe8?autoplay=1&mute=1&loop=1&playlist=sNzn4VQTRe8&controls=0&start=5", "https://www.youtube.com/embed/Q4JAI02Y8lE?autoplay=1&mute=1&loop=1&playlist=Q4JAI02Y8lE&controls=0&start=18"] },
-    { "name": "BP", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829368/Logo_BP_color_wor5i1.png", "videos": ["https://www.youtube.com/embed/uMIbkUAS9v0?autoplay=1&mute=1&loop=1&playlist=uMIbkUAS9v0&controls=0&start=1"] },
-    { "name": "GM", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829369/LOGO_GM_negro-TRANSPARENTE_ododcj.png", "videos": ["https://player.vimeo.com/video/1183530395?h=14f7f61824&autoplay=1&muted=1&loop=1&background=1"] },
-    { "name": "Impulso Geek", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829373/ImpulsoGeek_negro_pphnkw.png", "videos": [] },
-    { "name": "Red Magic", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829371/RedMagic_logo_wq2jec.png", "videos": ["https://www.youtube.com/embed/PvHWNaBFyn8?autoplay=1&mute=1&loop=1&playlist=PvHWNaBFyn8&controls=0&start=19", "https://www.youtube.com/embed/pcMqgCXGdcI?autoplay=1&mute=1&loop=1&playlist=pcMqgCXGdcI&controls=0&start=2"] },
-    { "name": "Voit", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829364/LOGOS-VOIT_color_xhny7i.png", "videos": ["https://www.youtube.com/embed/eQ5WdahY3Mc?autoplay=1&mute=1&loop=1&playlist=eQ5WdahY3Mc&controls=0&start=1"] },
-    { "name": "Factor X", "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829366/factor_x_3_z33lgd.jpg", "videos": [] }
+    {
+      "name": "American Eagle",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829372/American_Eagle_logo_cmjots.png",
+      "videos": [
+        "https://www.youtube.com/embed/rRRBg4aNSMs?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=2&loop=1&playlist=rRRBg4aNSMs",
+        "https://www.youtube.com/embed/sNzn4VQTRe8?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=5&loop=1&playlist=sNzn4VQTRe8",
+        "https://www.youtube.com/embed/Q4JAI02Y8lE?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=18&loop=1&playlist=Q4JAI02Y8lE",
+        "https://www.youtube.com/embed/YzVYyDehMUY?si=_iFeitOpyHGAM7Uk&autoplay=1&mute=1&controls=0&start=6&loop=1&playlist=YzVYyDehMUY&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1"
+      ]
+    },
+    {
+      "name": "BP",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829368/Logo_BP_color_wor5i1.png",
+      "videos": [
+        "https://www.youtube.com/embed/6p1y6i484To?si=GznMqZYcF7Fl_DlC&autoplay=1&mute=1&controls=0&start=10&loop=1&playlist=6p1y6i484To&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1",
+        "https://www.youtube.com/embed/Yp4e7FrYKHY?si=yL9IzfKbrtaqGd-P&autoplay=1&mute=1&controls=0&start=4&loop=1&playlist=Yp4e7FrYKHY&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1"
+      ]
+    },
+    {
+      "name": "GM",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829369/LOGO_GM_negro-TRANSPARENTE_ododcj.png",
+      "videos": [
+        "https://player.vimeo.com/video/1183530395?h=14f7f61824&autoplay=1&muted=1&loop=1&background=1",
+        "https://player.vimeo.com/video/1183530395?h=14f7f61824&autoplay=1&muted=1&loop=1&background=1#t=22s",
+        "https://player.vimeo.com/video/1183530395?h=14f7f61824&autoplay=1&muted=1&loop=1&background=1#t=43s"
+      ]
+    },
+    {
+      "name": "Impulso Geek",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829373/ImpulsoGeek_negro_pphnkw.png",
+      "videos": [
+        "https://www.youtube.com/embed/RMNjO-rFGX4?si=Tv1mE6awQQ9ZH_NG&autoplay=1&mute=1&controls=0&start=2&loop=1&playlist=RMNjO-rFGX4&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1",
+        "https://www.youtube.com/embed/RMNjO-rFGX4?si=Tv1mE6awQQ9ZH_NG&autoplay=1&mute=1&controls=0&start=88&loop=1&playlist=RMNjO-rFGX4&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1",
+        "https://www.youtube.com/embed/yW_Evj_i7z0?si=BcCrJWsNp0tApPf6&autoplay=1&mute=1&controls=0&loop=1&playlist=yW_Evj_i7z0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1"
+      ]
+    },
+    {
+      "name": "Red Magic",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829371/RedMagic_logo_wq2jec.png",
+      "videos": [
+        "https://www.youtube.com/embed/PvHWNaBFyn8?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=19&loop=1&playlist=PvHWNaBFyn8",
+        "https://www.youtube.com/embed/pcMqgCXGdcI?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=2&loop=1&playlist=pcMqgCXGdcI",
+        "https://www.youtube.com/embed/Y-1uBNkII7E?si=mXYFns4Pmv9VLGgR&autoplay=1&mute=1&controls=0&start=14&loop=1&playlist=Y-1uBNkII7E&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1"
+      ]
+    },
+    {
+      "name": "Voit",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829364/LOGOS-VOIT_color_xhny7i.png",
+      "videos": [
+        "https://www.youtube.com/embed/eQ5WdahY3Mc?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=1&loop=1&playlist=eQ5WdahY3Mc",
+        "https://www.youtube.com/embed/eQ5WdahY3Mc?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1&start=7&loop=1&playlist=eQ5WdahY3Mc"
+      ]
+    },
+    {
+      "name": "Factor X",
+      "logo": "https://res.cloudinary.com/dcwi0nryw/image/upload/v1776829366/factor_x_3_z33lgd.jpg",
+      "videos": [
+        "https://www.youtube.com/embed/2P7Q5hX1rfg?si=gwkB58he-Gu0Qh6K&autoplay=1&mute=1&controls=0&start=5&loop=1&playlist=2P7Q5hX1rfg&modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&enablejsapi=1"
+      ]
+    }
   ]
 }
