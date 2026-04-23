@@ -2,6 +2,7 @@
 import { reactive, ref, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useConfig } from '../composables/useConfig'
 import TeamButton from './TeamButton.vue'
+import FifaCard from './FifaCard.vue'
 
 let confetti = null
 const loadConfetti = async () => {
@@ -906,9 +907,29 @@ onBeforeUnmount(() => {
   }
 })
 
-function showChampionCelebration(name) {
+async function showChampionCelebration(name) {
   champion.name = name
   champion.show = true
+  
+  // Create custom emoji shapes for confetti
+  let championShapes = undefined
+  try {
+    const conf = await loadConfetti()
+    if (conf && conf.shapeFromText) {
+      championShapes = [
+        'square',
+        'circle',
+        conf.shapeFromText({ text: '🏆', scalar: 2.5 }),
+        conf.shapeFromText({ text: '🏆', scalar: 2.5 }),
+        conf.shapeFromText({ text: '🔥', scalar: 2.5 }),
+        conf.shapeFromText({ text: '🔥', scalar: 2.5 }),
+        conf.shapeFromText({ text: '🔥', scalar: 2.5 }),
+        conf.shapeFromText({ text: '👑', scalar: 2.5 }),
+        conf.shapeFromText({ text: '😎', scalar: 2.5 })
+      ]
+    }
+  } catch(e) {}
+
   // start continuous confetti until closed
   if (championConfettiInterval.value) {
     try { clearInterval(championConfettiInterval.value) } catch (e) {}
@@ -918,28 +939,30 @@ function showChampionCelebration(name) {
     try {
       // left burst
       emitConfetti({
-        particleCount: 16,
+        particleCount: 12,
         angle: 60,
-        spread: 90,
-        origin: { x: 0, y: Math.random() * 0.6 },
+        spread: 100,
+        origin: { x: 0, y: Math.random() * 0.7 },
         colors: ['#FFD700', '#f59e0b', '#10b981', '#3b82f6', '#ef4444', '#a855f7'],
-        gravity: 1.0,
-        scalar: 2.0,
-        ticks: 500
+        shapes: championShapes,
+        gravity: 0.8,
+        scalar: 2.5,
+        ticks: 600
       })
       // right burst
       emitConfetti({
-        particleCount: 16,
+        particleCount: 12,
         angle: 120,
-        spread: 90,
-        origin: { x: 1, y: Math.random() * 0.6 },
+        spread: 100,
+        origin: { x: 1, y: Math.random() * 0.7 },
         colors: ['#FFD700', '#f59e0b', '#10b981', '#3b82f6', '#ef4444', '#a855f7'],
-        gravity: 1.0,
-        scalar: 2.0,
-        ticks: 500
+        shapes: championShapes,
+        gravity: 0.8,
+        scalar: 2.5,
+        ticks: 600
       })
     } catch (e) {}
-  }, 200)
+  }, 300)
 }
 
 function closeChampionCelebration() {
@@ -993,7 +1016,7 @@ function resetLocalStorage() {
     </button>
 
     <!-- Header with logo and players -->
-    <div class="header-section">
+    <div class="header-section" v-if="!champion.show">
   <img v-if="player1Exists" class="header-player player-left" :src="player1Src" aria-hidden="true" draggable="false" decoding="async" @error="onPlayer1Error" />
   <img v-if="logoExists" class="top-logo" :src="logoSrc" alt="" draggable="false" decoding="async" @error="onLogoError" />
   <img v-if="player2Exists" class="header-player player-right" :src="player2Src" aria-hidden="true" draggable="false" decoding="async" @error="onPlayer2Error" />
@@ -1143,14 +1166,26 @@ function resetLocalStorage() {
   <!-- Champion Celebration Overlay -->
   <Transition name="modal-fade">
     <div v-if="champion.show" class="champion-overlay" aria-live="assertive">
+      <div class="champion-bg-stadium"></div>
+      <div class="champion-rays"></div>
+      <div class="champion-spotlight left-spot"></div>
+      <div class="champion-spotlight right-spot"></div>
+      <div class="champion-particles">
+        <span v-for="n in 20" :key="n" class="gold-particle" :style="{ left: (n * 5) + '%', animationDelay: (n * 0.3) + 's', animationDuration: (4 + (n % 3) * 2) + 's' }"></span>
+      </div>
       <div class="champion-card">
+        <div class="champion-card-inner-bg"></div>
+        <div class="champion-card-pattern"></div>
         <button class="champion-close" @click="closeChampionCelebration" aria-label="Cerrar">✕</button>
         <div class="champion-glow"></div>
         <div class="champion-crown">👑</div>
         <div class="champion-title">¡CAMPEÓN!</div>
         <div class="champion-name">{{ champion.name }}</div>
-  <img v-if="trophyExists" class="champion-trophy" :src="trophySrc" alt="Trophy" draggable="false" decoding="async" />
-        <div class="champion-sub">Orgullo absoluto de la cancha</div>
+        <div class="champion-trophy-container">
+          <div class="trophy-aura"></div>
+          <img v-if="trophyExists" class="champion-trophy" :src="trophySrc" alt="Trophy" draggable="false" decoding="async" />
+        </div>
+        <div class="champion-sub">★ Orgullo Absoluto de la Cancha ★</div>
       </div>
     </div>
   </Transition>
@@ -1159,8 +1194,9 @@ function resetLocalStorage() {
   <Transition name="modal-fade">
     <div v-if="finalModalShow" class="final-modal-overlay" @click="closeFinalModal">
       <!-- Floating Broadcast Tag (External) -->
-      <div class="broadcast-tag-external" v-if="finalMatchRunning">🔴 FINAL EN VIVO</div>
-      
+      <div class="broadcast-tag-external" v-if="finalMatchRunning">
+        <span class="live-dot-tag"></span> En vivo
+      </div>
       <div class="final-modal" :class="{ running: finalMatchRunning }" @click.stop>
         
         <!-- Stadium Lights Effect -->
@@ -1229,8 +1265,17 @@ function resetLocalStorage() {
 
         <div class="finalists-container" :class="{ 'broadcast-mode': finalMatchRunning }">
           <div class="finalist left-finalist" @click="chooseChampion(0)">
-            <div class="card-glare" v-if="finalMatchRunning"></div>
-            <TeamButton :name="final[0]" :readonly="true" :colorScheme="'gray'" :placeholder="'F1'" side="none" />
+            
+            <!-- Show regular button before starting, FIFA card after starting -->
+            <TeamButton v-if="!finalMatchRunning" :name="final[0]" :readonly="true" :colorScheme="'gray'" :placeholder="'F1'" side="none" />
+            <FifaCard 
+              v-else
+              :name="final[0]" 
+              :logo="logoSrc" 
+              :active="finalMatchRunning"
+              side="left"
+            />
+            
             <div class="click-to-win" v-if="finalMatchRunning">CAMPEÓN</div>
           </div>
 
@@ -1239,8 +1284,17 @@ function resetLocalStorage() {
           </div>
 
           <div class="finalist right-finalist" @click="chooseChampion(1)">
-            <div class="card-glare" v-if="finalMatchRunning"></div>
-            <TeamButton :name="final[1]" :readonly="true" :colorScheme="'gray'" :placeholder="'F2'" side="none" />
+            
+            <!-- Show regular button before starting, FIFA card after starting -->
+            <TeamButton v-if="!finalMatchRunning" :name="final[1]" :readonly="true" :colorScheme="'gray'" :placeholder="'F2'" side="none" />
+            <FifaCard 
+              v-else
+              :name="final[1]" 
+              :logo="logoSrc" 
+              :active="finalMatchRunning"
+              side="right"
+            />
+            
             <div class="click-to-win" v-if="finalMatchRunning">CAMPEÓN</div>
           </div>
         </div>
@@ -2240,13 +2294,10 @@ function resetLocalStorage() {
 
 .final-modal.running {
   background-color: #4c8c4a;
-  background-image: repeating-linear-gradient(
-    90deg, 
-    #4c8c4a, 
-    #4c8c4a 10%, 
-    #458043 10%, 
-    #458043 20%
-  );
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 40%);
+  background-size: 100% 100%, 100% 100%;
   border-color: #ffffff;
   box-shadow: 0 0 60px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.2);
   padding-bottom: 80px;
@@ -2523,26 +2574,44 @@ function resetLocalStorage() {
 
 .broadcast-tag-external {
   position: absolute;
-  top: clamp(20px, 5vh, 60px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ef4444; /* Bright Red */
-  color: white;
-  padding: 8px 24px;
+  top: 35px; /* Aligned better with the top of the modal */
+  left: 45px; /* Aligned better with the left edge of the modal */
+  background: rgba(0, 0, 0, 0.4);
+  color: #ff0000; /* Red text like the sketch */
+  padding: 6px 20px;
   font-weight: 900;
-  font-size: 16px;
+  font-size: clamp(20px, 2.2vw, 30px);
   text-transform: uppercase;
   letter-spacing: 2px;
-  box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
   z-index: 100001;
   border-radius: 4px;
+  border: 3px solid #ff0000; /* Red border like the sketch */
   animation: tagPulseRed 2s infinite;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.live-dot-tag {
+  width: 12px;
+  height: 12px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+  animation: blinkDot 0.8s infinite alternate;
+}
+
+@keyframes blinkDot {
+  from { opacity: 1; transform: scale(1); box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); }
+  to { opacity: 0.5; transform: scale(0.8); box-shadow: 0 0 2px rgba(255, 0, 0, 0.2); }
 }
 
 @keyframes tagPulseRed {
-  0%, 100% { transform: translateX(-50%) scale(1); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
-  50% { transform: translateX(-50%) scale(1.05); box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+  50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); }
 }
 
 .final-modal.running .finalists-container {
@@ -2559,22 +2628,18 @@ function resetLocalStorage() {
 }
 
 .final-modal.running .finalist {
-  border-radius: 12px;
-  width: 220px; /* Back to original size */
-  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
-  border: 2px solid white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  padding: 20px;
+  padding: 0;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
   z-index: 10;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
 .final-modal.running .left-finalist {
@@ -2609,27 +2674,85 @@ function resetLocalStorage() {
 }
 
 .final-modal.running .finalist:hover {
-  border-color: #f59e0b;
-  box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
   transform: scale(1.08) !important;
 }
 
-.live-scoreboard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+/* Fall from sky animation */
+.final-modal.running .finalist {
+  animation: dropAndImpact 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.final-modal.running .left-finalist { animation-delay: 0.15s; }
+.final-modal.running .right-finalist { animation-delay: 0.15s; }
+
+@keyframes dropAndImpact {
+  0% { 
+    transform: translateY(-100vh) scaleY(2) scaleX(0.5); 
+    opacity: 0; 
+    filter: blur(10px);
+  }
+  60% { 
+    transform: translateY(0) scaleY(0.7) scaleX(1.3); 
+    opacity: 1;
+    filter: blur(0);
+  }
+  80% { 
+    transform: translateY(-20px) scaleY(1.1) scaleX(0.9); 
+  }
+  100% { 
+    transform: translateY(0) scale(1); 
+    opacity: 1;
+  }
+}
+
+/* Modal impact shake */
+.final-modal.running {
+  animation: stadiumShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  animation-delay: 0.65s; /* Sync with cards landing */
+  position: relative;
+}
+
+@keyframes stadiumShake {
+  10%, 90% { transform: translate3d(-1px, 2px, 0); }
+  20%, 80% { transform: translate3d(2px, -3px, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 5px, 0); }
+  40%, 60% { transform: translate3d(4px, -5px, 0); }
 }
 
 .final-modal.running .click-to-win {
-  background: rgba(59, 130, 246, 0.2); 
-  border: 1px solid #3b82f6;
-  color: #3b82f6;
-  padding: 4px 12px;
-  font-size: 12px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+  border: 2px solid #silver; /* Use a hex for silver */
+  border-color: #a0a0a0;
+  color: #ffffff;
+  padding: 10px 35px;
+  border-radius: 50px;
+  margin-top: 25px;
+  font-weight: 900;
+  font-size: 18px;
+  text-transform: uppercase;
   letter-spacing: 2px;
-  margin-top: 15px;
-  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  animation: championButtonPulseSilver 2s infinite alternate;
+  position: relative;
+  z-index: 20;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.final-modal.running .click-to-win:hover {
+  transform: scale(1.1) translateY(-3px);
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+  border-color: #fff;
+}
+
+@keyframes championButtonPulseSilver {
+  0% { transform: scale(1); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6); }
+  100% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(160, 160, 160, 0.4); }
 }
 
 @keyframes cardPulseBroadcast {
@@ -2715,20 +2838,30 @@ function resetLocalStorage() {
   flex-wrap: wrap;
 }
 
+.final-modal.running .finalist {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  animation: dropAndImpact 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  box-shadow: none;
+}
+
+.final-modal.running .left-finalist { animation-delay: 0.15s; }
+.final-modal.running .right-finalist { animation-delay: 0.15s; }
+
 .finalist {
   flex: 1;
-  min-width: 200px;
+  min-width: 280px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
-  border: 3px solid #10b981;
-  border-radius: 20px;
-  padding: clamp(20px, 3vw, 35px);
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
   text-align: center;
   position: relative;
-  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-  animation: finalistPulse 2s ease-in-out infinite;
+  cursor: pointer;
+  perspective: 1000px;
 }
 
 .finalist:nth-child(1) { animation-delay: 0s; }
@@ -2776,20 +2909,25 @@ function resetLocalStorage() {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  z-index: 60;
 }
 
 .vs-text {
-  font-size: clamp(32px, 5vw, 48px);
-  font-weight: 900;
-  color: #FFD700;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.6);
-  animation: vsRotate 4s linear infinite;
+  font-size: clamp(50px, 7vw, 90px);
+  font-weight: 1000;
+  color: #ff0000;
+  text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+  font-style: italic;
+  letter-spacing: -2px;
+  animation: vsPulseModern 2s infinite alternate;
 }
 
-@keyframes vsRotate {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(-10deg) scale(1.2); }
-  75% { transform: rotate(10deg) scale(1.2); }
+@keyframes vsPulseModern {
+  0% { transform: scale(1) rotate(-3deg); filter: brightness(1); }
+  100% { transform: scale(1.1) rotate(3deg); filter: brightness(1.2); }
 }
 
 .modal-actions {
@@ -3428,90 +3566,303 @@ function resetLocalStorage() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(120% 120% at 50% 10%, rgba(5,10,20,0.9), rgba(3,6,12,0.96));
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(255, 165, 0, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255, 215, 0, 0.08), transparent),
+    radial-gradient(circle at 50% 50%, rgba(15, 12, 5, 0.97), rgba(3, 3, 8, 0.99));
   overflow: hidden;
+  perspective: 1000px;
+}
+
+/* Subtle stadium floor glow */
+.champion-bg-stadium {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  background: linear-gradient(to top, rgba(255, 215, 0, 0.06) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Epic rotating rays background */
+.champion-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200vmax;
+  height: 200vmax;
+  transform: translate(-50%, -50%);
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 215, 0, 0.04) 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  animation: spinRays 60s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes spinRays {
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Stadium spotlights */
+.champion-spotlight {
+  position: absolute;
+  top: -30%;
+  width: 300px;
+  height: 160%;
+  background: linear-gradient(to bottom, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.02) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  transform-origin: top center;
+}
+.champion-spotlight.left-spot {
+  left: 10%;
+  transform: rotate(-15deg);
+  animation: spotSwayLeft 6s ease-in-out infinite alternate;
+}
+.champion-spotlight.right-spot {
+  right: 10%;
+  transform: rotate(15deg);
+  animation: spotSwayRight 6s ease-in-out infinite alternate;
+}
+
+@keyframes spotSwayLeft {
+  0% { transform: rotate(-15deg); opacity: 0.6; }
+  100% { transform: rotate(5deg); opacity: 1; }
+}
+@keyframes spotSwayRight {
+  0% { transform: rotate(15deg); opacity: 0.6; }
+  100% { transform: rotate(-5deg); opacity: 1; }
+}
+
+/* Floating golden particles */
+.champion-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.gold-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #FFD700;
+  box-shadow: 0 0 6px 2px rgba(255, 215, 0, 0.6);
+  animation: particleFloat linear infinite;
+  opacity: 0;
+}
+
+@keyframes particleFloat {
+  0% { transform: translateY(0) scale(0); opacity: 0; }
+  10% { opacity: 0.8; transform: translateY(-10vh) scale(1); }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-110vh) scale(0.3); opacity: 0; }
 }
 
 .champion-card {
   position: relative;
   text-align: center;
-  padding: clamp(30px, 6vw, 80px);
-  border-radius: 28px;
-  border: 3px solid rgba(255,215,0,0.6);
-  background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.12));
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 120px rgba(255, 215, 0, 0.35);
+  padding: clamp(20px, 5vh, 60px) clamp(30px, 6vw, 80px);
+  border-radius: 32px;
+  background: #0a0e1a; /* Base dark color */
+  backdrop-filter: blur(20px);
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 
+    0 40px 100px rgba(0,0,0,0.8), 
+    0 0 80px rgba(255, 215, 0, 0.2),
+    inset 0 0 40px rgba(255, 215, 0, 0.1);
+  animation: epicCardEntry 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+  z-index: 1;
+  transform-style: preserve-3d;
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure inner patterns don't bleed */
+}
+
+.champion-card-inner-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+    linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+  z-index: -1;
+}
+
+.champion-card-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: 
+    repeating-linear-gradient(45deg, #ffd700 0, #ffd700 1px, transparent 0, transparent 50%),
+    repeating-linear-gradient(-45deg, #ffd700 0, #ffd700 1px, transparent 0, transparent 50%);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+  z-index: -1;
+  z-index: -1;
+}
+
+.champion-card::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 36px;
+  background: linear-gradient(135deg, #FFD700 0%, #FDB931 25%, #9f7928 50%, #FDB931 75%, #FFD700 100%);
+  background-size: 200% 200%;
+  z-index: -1;
+}
+
+@keyframes epicCardEntry {
+  0% { opacity: 0; transform: scale(0.7) translateY(100px) rotateX(20deg); }
+  100% { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); }
 }
 
 .champion-glow {
   position: absolute;
-  inset: -60px;
-  background: conic-gradient(from 0deg, #FFD700, #10b981, #3b82f6, #ef4444, #a855f7, #FFD700);
-  filter: blur(28px) opacity(0.45);
-  z-index: -1;
+  inset: -80px;
+  background: conic-gradient(from 0deg, #FFD700, #ff8c00, #FFD700, #ff8c00, #FFD700);
+  filter: blur(50px) opacity(0.3);
+  z-index: -2;
+  animation: pulseGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { filter: blur(40px) opacity(0.2); transform: scale(0.95); }
+  100% { filter: blur(60px) opacity(0.4); transform: scale(1.05); }
 }
 
 .champion-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 48px;
-  height: 48px;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(255,255,255,0.35);
-  color: #fff;
-  font-size: 24px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  color: #FFD700;
+  font-size: 20px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all .25s ease;
+  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
 }
-.champion-close:hover { background: rgba(239,68,68,0.85); border-color: #ef4444; transform: rotate(90deg); }
+.champion-close:hover { 
+  background: rgba(239,68,68,0.9); 
+  border-color: #ef4444; 
+  color: white;
+  transform: rotate(90deg) scale(1.1); 
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}
 
 .champion-crown {
-  font-size: clamp(44px, 7vw, 90px);
-  margin-bottom: clamp(6px, 1vw, 12px);
-  animation: crownPulse 1.8s ease-in-out infinite;
+  font-size: clamp(40px, 7vh, 80px);
+  margin-bottom: -10px;
+  filter: drop-shadow(0 10px 15px rgba(255, 215, 0, 0.5));
+  animation: crownFloat 3s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
 }
 
 .champion-title {
-  font-size: clamp(38px, 6vw, 88px);
-  font-weight: 1000;
-  color: #FFD700;
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 2px 2px 0 #5c4400;
+  font-size: clamp(35px, 9vh, 85px);
+  font-weight: 900;
+  margin: 0;
+  /* Premium 3D Gold Text Effect */
+  background: linear-gradient(to bottom, #FFFDE4 0%, #FFD700 40%, #ff8c00 80%, #9f7928 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.8)) drop-shadow(0px 8px 15px rgba(255,215,0,0.4));
   letter-spacing: 2px;
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
 }
 
 .champion-name {
-  margin-top: clamp(10px, 1.5vw, 16px);
-  font-size: clamp(28px, 4.8vw, 64px);
+  margin-top: clamp(10px, 1.5vh, 20px);
+  font-size: clamp(28px, 6vh, 60px);
   font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 12px rgba(255,255,255,0.6);
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 
+    0 0 10px rgba(255,255,255,0.8),
+    0 0 20px rgba(59,130,246,0.6),
+    0 4px 10px rgba(0,0,0,0.8);
+  position: relative;
+  z-index: 2;
+}
+
+.champion-trophy-container {
+  position: relative;
+  margin: clamp(15px, 2vh, 30px) auto;
+  display: inline-block;
+}
+
+.trophy-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: auraPulse 2.5s ease-in-out infinite alternate;
+  z-index: 0;
 }
 
 .champion-trophy {
   display: block;
-  margin: clamp(18px, 2.2vw, 28px) auto;
-  width: clamp(160px, 22vw, 320px);
+  position: relative;
+  width: clamp(150px, 32vh, 320px);
   height: auto;
-  filter: drop-shadow(0 20px 40px rgba(255, 215, 0, 0.35));
-  animation: trophyShine 3s ease-in-out infinite;
+  filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.5));
+  animation: epicTrophyFloat 4s ease-in-out infinite;
+  z-index: 1;
 }
 
 .champion-sub {
-  color: #a7f3d0;
-  font-weight: 700;
-  font-size: clamp(14px, 2.4vw, 24px);
-  text-shadow: 0 0 10px rgba(16,185,129,0.6);
+  margin-top: 5px;
+  color: #FFD700;
+  font-weight: 800;
+  font-size: clamp(14px, 2.2vh, 22px);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.8), 0 0 15px rgba(255,215,0,0.4);
+  position: relative;
+  z-index: 2;
 }
 
-@keyframes crownPulse {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-8px) scale(1.06); }
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+  50% { transform: translateY(-15px) scale(1.1) rotate(5deg); }
 }
 
-@keyframes trophyShine {
-  0%, 100% { filter: drop-shadow(0 20px 40px rgba(255, 215, 0, 0.35)); }
-  50% { filter: drop-shadow(0 28px 60px rgba(255, 215, 0, 0.6)); }
+@keyframes epicTrophyFloat {
+  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.4)); }
+  50% { transform: translateY(-20px) scale(1.05); filter: drop-shadow(0 45px 45px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)); }
+}
+
+@keyframes auraPulse {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
 }
 
 /* ─── Responsive - Mid-size Screens (Tablets/Small Laptops) ─── */
@@ -3576,6 +3927,36 @@ function resetLocalStorage() {
   .match-time-input {
     height: 22px !important;
     font-size: 11px !important;
+  }
+  
+  /* Champion Modal Responsive Overrides */
+  .champion-card {
+    padding: clamp(15px, 3vh, 40px) clamp(25px, 5vw, 50px);
+    border-width: 2px;
+  }
+  .champion-crown {
+    font-size: clamp(30px, 6vh, 60px);
+    margin-bottom: -10px;
+  }
+  .champion-title {
+    font-size: clamp(28px, 9vh, 65px);
+    letter-spacing: 2px;
+  }
+  .champion-name {
+    font-size: clamp(20px, 5vh, 40px);
+    margin-top: 5px;
+    letter-spacing: 1px;
+  }
+  .champion-trophy {
+    width: clamp(100px, 28vh, 200px);
+  }
+  .champion-trophy-container {
+    margin: 8px auto;
+  }
+  .champion-sub {
+    font-size: clamp(10px, 2.5vh, 16px);
+    margin-top: 5px;
+    letter-spacing: 1px;
   }
 }
 </style>
