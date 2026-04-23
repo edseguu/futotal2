@@ -2723,7 +2723,7 @@ function resetLocalStorage() {
 
 .final-modal.running .click-to-win {
   background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
-  border: 2px solid #silver; /* Use a hex for silver */
+  border: 2px solid #c0c0c0; /* Use a hex for silver */
   border-color: #a0a0a0;
   color: #ffffff;
   padding: 10px 35px;
